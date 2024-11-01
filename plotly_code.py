@@ -1,17 +1,36 @@
-import pandas as pd
 import plotly.express as px
+import matplotlib.pyplot as plt
+import pandas as pd
+import os
 
+
+# Функция для загрузки данных
 def load_data():
-    data = pd.read_csv('C:\\pythonProject\\pythonProject\\Diplom\\data\\data.csv')
-    return data
+  # Путь к файлу data.csv в папке data
+  data_path = os.path.join(os.path.dirname(__file__), 'data', 'data.csv')
 
-def plotly_visualization(data):
+  # Загрузка данных
+  data = pd.read_csv(data_path)
+  return data
+
+def plotly_visualizations(data):
+    # Scatter-плот средний рейтинг по годам
     fig = px.scatter(data, x='releaseYear', y='averageRating',
-                     color='averageRating',
-                     title='Средний рейтинг по годам',
-                     labels={'releaseYear': 'Год выпуска', 'averageRating': 'Средний рейтинг'},
-                     color_continuous_scale=px.colors.sequential.Viridis,
-                     hover_name='title',  # Отображение названия
-                     hover_data=['genres', 'id'])  # Отображение жанра и ID
-
+                     size='numVotes', color='genres',
+                     hover_name='title', title='Распределение рейтингов по годам')
+    fig.update_layout(xaxis_title='Год выпуска', yaxis_title='Средний рейтинг')
     fig.show()
+
+    # Bubble Chart количества голосов и рейтинга
+    fig = px.scatter(data, x='numVotes', y='averageRating',
+                     size='numVotes', color='averageRating', hover_name='title',
+                     title='Рейтинг vs. Количество голосов',
+                     log_x=True)
+    fig.update_layout(xaxis_title='Количество голосов (логарифм)', yaxis_title='Средний рейтинг')
+    fig.show()
+
+# Основной блок кода для выполнения
+if __name__ == "__main__":
+  data = load_data()  # Загружаем данные
+  plotly_visualizations(data) # Запускаем визуализацию
+

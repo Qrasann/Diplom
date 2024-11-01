@@ -1,20 +1,20 @@
-from matplotlib_code import advanced_matplotlib_visualization
-from seaborn_code import seaborn_visualization
-from plotly_code import plotly_visualization
+from matplotlib_code import matplotlib_visualizations
+from seaborn_code import seaborn_visualizations
+from plotly_code import plotly_visualizations
+from data_loader import load_data  # Файл data_loader.py, содержащий функцию load_data
 
 def main():
     # Загрузка данных
-    from matplotlib_code import load_data
     data = load_data()  # Загружаем данные
 
     print("Визуализация с помощью Matplotlib")
-    advanced_matplotlib_visualization(data)
+    matplotlib_visualizations(data)
 
     print("Визуализация с помощью Seaborn")
-    seaborn_visualization(data)
+    seaborn_visualizations(data)
 
     print("Визуализация с помощью Plotly")
-    plotly_visualization(data)
+    plotly_visualizations(data)
 
 if __name__ == "__main__":
     main()
