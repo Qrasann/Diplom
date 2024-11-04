@@ -1,16 +1,13 @@
-# Импорт библиотек
 import matplotlib.pyplot as plt
 import mplcursors
 import os
 import pandas as pd
 
-# Функция для загрузки данных
 def load_data():
     data_path = os.path.join(os.path.dirname(__file__), 'data', 'data.csv')
     data = pd.read_csv(data_path)
     return data
 
-# Функция для визуализации с помощью Matplotlib
 def matplotlib_visualizations(data):
     # Гистограмма распределения рейтинга
     plt.figure(figsize=(12, 6))
@@ -28,7 +25,6 @@ def matplotlib_visualizations(data):
     plt.title('Изменение среднего рейтинга по годам')
     plt.xlabel('Год выпуска')
     plt.ylabel('Средний рейтинг')
-    # Добавляем аннотации к точкам
     mplcursors.cursor(line, hover=True).connect(
         "add", lambda sel: sel.annotation.set_text(f"Год: {int(sel.target[0])}\nРейтинг: {sel.target[1]:.2f}")
     )
@@ -41,7 +37,6 @@ def matplotlib_visualizations(data):
     plt.xlabel('Количество голосов')
     plt.ylabel('Средний рейтинг')
     plt.xscale('log')
-    # Добавляем аннотации с названиями фильмов
     mplcursors.cursor(scatter, hover=True).connect(
         "add", lambda sel: sel.annotation.set_text(
             f"Фильм: {data['title'].iloc[sel.index]}\nГолоса: {data['numVotes'].iloc[sel.index]}\nРейтинг: {data['averageRating'].iloc[sel.index]}"
@@ -56,10 +51,8 @@ def matplotlib_visualizations(data):
     plt.title('Средний рейтинг по жанрам')
     plt.xlabel('Средний рейтинг')
 
-    # Убираем метки оси Y
     plt.yticks([])
 
-    # Добавляем аннотации к столбцам
     mplcursors.cursor(barh, hover=True).connect(
         "add", lambda sel: sel.annotation.set_text(
             f"Жанр: {avg_rating_by_genre.index[sel.index]}\nРейтинг: {avg_rating_by_genre[sel.index]:.2f}"
@@ -74,13 +67,11 @@ def matplotlib_visualizations(data):
     plt.title('Количество фильмов по годам')
     plt.xlabel('Год')
     plt.ylabel('Количество фильмов')
-    # Добавляем аннотации к столбцам
     mplcursors.cursor(bar, hover=True).connect(
         "add", lambda sel: sel.annotation.set_text(f"Год: {movie_count_by_year.index[sel.index]}\nКоличество: {movie_count_by_year.values[sel.index]}")
     )
     plt.show()
 
-# Основной блок кода
 if __name__ == "__main__":
     data = load_data()
     matplotlib_visualizations(data)
