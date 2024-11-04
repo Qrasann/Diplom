@@ -1,4 +1,3 @@
-# Импорт библиотек
 import seaborn as sns
 import matplotlib.pyplot as plt
 import mplcursors
@@ -15,26 +14,20 @@ def seaborn_visualizations(data):
     plt.figure(figsize=(10, 6))
     sns.histplot(data['averageRating'], kde=True, color='blue')
 
-    # Устанавливаем заголовок и переименовываем оси на русском
     plt.title('Гистограмма рейтингов с KDE')
     plt.xlabel('Средний рейтинг')
     plt.ylabel('Количество')
 
     plt.show()
 
-    # Коробчатая диаграмма по жанрам
     plt.figure(figsize=(14, 8))
     boxplot = sns.boxplot(data=data, x='averageRating', y='genres', palette='Set2')
     plt.title('Распределение рейтинга по жанрам')
-
-    # Убираем метки оси Y
     plt.yticks([])
     plt.ylabel('Жанры')
 
-    # Переименовываем ось X
     plt.xlabel('Средний рейтинг')
 
-    # Добавляем аннотации к диаграмме при наведении
     mplcursors.cursor(boxplot.get_children(), hover=True).connect(
         "add", lambda sel: sel.annotation.set_text(
             f"Жанр: {data['genres'].unique()[sel.target[1]]}\nСредний рейтинг: {sel.target[0]:.2f}"
@@ -46,7 +39,6 @@ def seaborn_visualizations(data):
     # Корреляционная матрица
     plt.figure(figsize=(10, 8))
 
-    # Переименовываем столбцы для отображения на русском
     corr_data = data[['averageRating', 'numVotes']].rename(
         columns={'averageRating': 'Средний рейтинг', 'numVotes': 'Количество голосов'}
     ).corr()
@@ -55,7 +47,7 @@ def seaborn_visualizations(data):
     plt.title('Корреляция рейтинга и количества голосов')
     plt.show()
 
-    # Средний рейтинг по годам с аннотациями фильмов
+    # Средний рейтинг по годам
     plt.figure(figsize=(12, 6))
     lineplot = sns.lineplot(x='releaseYear', y='averageRating', data=data, marker='o', color='orange')
     plt.title('Средний рейтинг по годам')
@@ -92,8 +84,6 @@ def seaborn_visualizations(data):
     plt.ylabel('Средний рейтинг')
     plt.show()
 """
-
-# Основной блок кода
 if __name__ == "__main__":
     data = load_data()
     seaborn_visualizations(data)
